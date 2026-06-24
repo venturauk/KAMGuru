@@ -171,7 +171,7 @@ export default function Home() {
               >
                 {e.image && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={mediaUrl(e.image)} alt={e.fullTitle} className="aspect-square w-full object-cover" />
+                  <img src={mediaUrl(e.image)} alt={e.fullTitle} className="aspect-[3/2] w-full object-cover" />
                 )}
                 <div className="p-5">
                   <div className="text-xs font-semibold uppercase tracking-wide text-brand">Episode {e.number}</div>

@@ -43,7 +43,7 @@ export default function PodcastIndex() {
                 <img
                   src={mediaUrl(e.image)}
                   alt={e.fullTitle}
-                  className="aspect-square w-full object-cover"
+                  className="aspect-[3/2] w-full object-cover"
                 />
               )}
               <div className="p-5">
