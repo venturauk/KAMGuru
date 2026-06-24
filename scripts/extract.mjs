@@ -80,6 +80,21 @@ const decodeVcLink = (raw) => {
 };
 const esc = (s) => (s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
+// Decode HTML entities for fields rendered as plain text (titles, names).
+const NAMED = {
+  amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " ",
+  hellip: "…", mdash: "—", ndash: "–", lsquo: "‘", rsquo: "’",
+  ldquo: "“", rdquo: "”",
+};
+const decodeEntities = (s) =>
+  (s || "").replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (m, e) => {
+    if (e[0] === "#") {
+      const n = e[1] === "x" || e[1] === "X" ? parseInt(e.slice(2), 16) : parseInt(e.slice(1), 10);
+      return Number.isNaN(n) ? m : String.fromCodePoint(n);
+    }
+    return NAMED[e.toLowerCase()] ?? m;
+  });
+
 function videoEmbed(url) {
   if (!url) return "";
   let m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([\w-]+)/);
@@ -133,6 +148,15 @@ function cleanContent(raw) {
     const href = rootRel(link.url || "#");
     const target = link.target ? ` target="_blank" rel="noopener"` : "";
     return `<a class="btn" href="${esc(href)}"${target}>${esc(at.title || "Learn more")}</a>`;
+  });
+
+  // The7 theme button: [dt_button link="url"]LABEL[/dt_button]
+  s = s.replace(/\[dt_button\b([^\]]*)\]([\s\S]*?)\[\/dt_button\]/g, (_, a, label) => {
+    const at = attrs(a);
+    const href = rootRel(at.link || "#");
+    const target = at.target_blank === "true" ? ' target="_blank" rel="noopener"' : "";
+    const text = label.replace(/<[^>]+>/g, "").trim() || "Learn more";
+    return `<p style="text-align:center"><a class="btn" href="${esc(href)}"${target}>${esc(text)}</a></p>`;
   });
 
   s = s.replace(/\[vc_video\b([^\]]*)\]/g, (_, a) => videoEmbed(attrs(a).link));
@@ -211,7 +235,7 @@ for (const [id, route] of Object.entries(PAGES)) {
   pages[route] = {
     id,
     route,
-    title: p.title.replace(/\s*\[(Copy|Old|BACKUP|test)[^\]]*\]/gi, "").trim(),
+    title: decodeEntities(p.title.replace(/\s*\[(Copy|Old|BACKUP|test)[^\]]*\]/gi, "").trim()),
     slug: p.slug,
     html: cleanContent(p.content),
     image: featuredImg(p),
@@ -227,8 +251,8 @@ const podcast = all
       id: p.id,
       slug: p.slug,
       number: epNum,
-      title: p.title.replace(/^EP?\s*0*\d+:\s*/i, "").trim(),
-      fullTitle: p.title.trim(),
+      title: decodeEntities(p.title.replace(/^EP?\s*0*\d+:\s*/i, "").trim()),
+      fullTitle: decodeEntities(p.title.trim()),
       // Drop the inline Captivate player div — the episode template renders its own.
       html: cleanContent(p.content).replace(
         /<div[^>]*>\s*<iframe[^>]*player\.captivate\.fm[^>]*>\s*<\/iframe>\s*<\/div>/gi,
@@ -245,9 +269,9 @@ const stripTags = (s) => (s || "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").
 const testimonials = all
   .filter((p) => p.type === "dt_testimonials" && p.status === "publish")
   .map((p) => ({
-    name: p.title.trim(),
-    role: p.meta["_dt_testimonial_options_position"] || "",
-    quote: stripTags(p.excerpt).replace(/^[“"”]+|[“"”]+$/g, "").trim(),
+    name: decodeEntities(p.title.trim()),
+    role: decodeEntities(p.meta["_dt_testimonial_options_position"] || ""),
+    quote: decodeEntities(stripTags(p.excerpt)).replace(/^[“"”]+|[“"”]+$/g, "").trim(),
   }))
   .filter((t) => t.quote);
 writeFileSync(`${OUT}/testimonials.json`, JSON.stringify(testimonials, null, 2));

@@ -26,9 +26,14 @@ export default function SiteHeader() {
             <div key={item.href} className="group relative">
               <Link
                 href={item.href}
-                className="inline-flex items-center px-3 py-2 text-sm font-medium text-ink-soft hover:text-brand"
+                className="inline-flex items-center gap-1 px-3 py-2 text-sm font-medium text-ink-soft hover:text-brand"
               >
                 {item.label}
+                {item.children && (
+                  <svg className="h-3 w-3 opacity-70 transition group-hover:rotate-180" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.6">
+                    <path d="M3 4.5 6 7.5 9 4.5" />
+                  </svg>
+                )}
               </Link>
               {item.children && (
                 <div className="invisible absolute left-0 top-full min-w-56 rounded-xl border border-line bg-white p-2 opacity-0 shadow-lg transition group-hover:visible group-hover:opacity-100">
