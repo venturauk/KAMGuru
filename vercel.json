@@ -1,5 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "next build",
+  "buildCommand": "node scripts/media-manifest.mjs && next build",
   "outputDirectory": "out"
 }

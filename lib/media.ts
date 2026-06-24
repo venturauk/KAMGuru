@@ -1,20 +1,43 @@
-// Single switch that controls where media is served from.
-//  - Preview (default): the live WordPress site, so images render before the
-//    `wp-content/uploads` folder has been localised into /public.
-//  - Final: set NEXT_PUBLIC_MEDIA_BASE="" once the uploads folder is committed
-//    under /public, so everything is served locally and WordPress can be retired.
-export const MEDIA_BASE =
+// Media resolution with a progressive WordPress -> local migration.
+//
+// Every media reference is a root-relative `/wp-content/uploads/<file>` path.
+// For each one we check the local manifest (files committed under
+// public/wp-content/uploads): if present, it's served locally from the repo;
+// if not, it falls back to the live WordPress site. This means the site never
+// breaks while the media library is still being migrated in batches.
+//
+// Once every needed file is local, the fallback simply stops being used.
+import manifest from "@/data/media-local.json";
+
+const LOCAL = new Set(manifest as string[]);
+const UPLOADS = "/wp-content/uploads/";
+
+// Where to fetch media that hasn't been localised yet.
+export const MEDIA_FALLBACK =
   process.env.NEXT_PUBLIC_MEDIA_BASE ?? "https://www.kamguru.com";
 
-/** Resolve a root-relative media path (e.g. /wp-content/uploads/x.jpg). */
+function resolveUpload(path: string): string {
+  const i = path.indexOf(UPLOADS);
+  if (i === -1) {
+    return /^https?:\/\//.test(path) ? path : MEDIA_FALLBACK + path;
+  }
+  const rel = path.slice(i + UPLOADS.length);
+  const basename = rel.split("/").pop()!.split(/[?#]/)[0];
+  // Present locally -> serve from /public; otherwise fall back to live site.
+  return LOCAL.has(basename) ? path.slice(i) : MEDIA_FALLBACK + path.slice(i);
+}
+
+/** Resolve a single media path (e.g. a page or episode image). */
 export function mediaUrl(path?: string): string {
   if (!path) return "";
   if (/^https?:\/\//.test(path)) return path;
-  return `${MEDIA_BASE}${path}`;
+  return resolveUpload(path);
 }
 
-/** Rewrite media URLs inside a block of cleaned HTML. */
+/** Rewrite every media URL inside a block of cleaned HTML. */
 export function withMedia(html: string): string {
-  if (!MEDIA_BASE) return html;
-  return html.replaceAll("/wp-content/", `${MEDIA_BASE}/wp-content/`);
+  return html.replace(
+    /(\/wp-content\/uploads\/[^"')\s]+)/g,
+    (m) => resolveUpload(m)
+  );
 }

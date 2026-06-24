@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "prebuild": "node scripts/media-manifest.mjs"
   },
   "dependencies": {
     "fast-xml-parser": "^5.9.2",
