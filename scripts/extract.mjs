@@ -122,6 +122,10 @@ function cleanContent(raw) {
   // Platform rename: muse.ai is now skiv.com (video IDs unchanged).
   s = s.replace(/muse\.ai/g, "skiv.com");
 
+  // Drop inert script-based video embeds (they don't render via innerHTML).
+  s = s.replace(/<div class="(?:muse|skiv)-video-player"[^>]*>\s*<\/div>/gi, "");
+  s = s.replace(/<script[^>]*(?:muse\.ai|skiv\.com)[^>]*>\s*<\/script>/gi, "");
+
   // Resource CTAs now point to the Front & Centre learning centre.
   s = s.replace(
     /https?:\/\/learn\.kamguru\.com\/[^\s"')]*/gi,
@@ -210,6 +214,9 @@ function cleanContent(raw) {
     return isBody ? `<p${attr}>${inner}</p>` : m;
   });
 
+  // Remove orphaned "...in this video" lines (the embed has been removed).
+  s = s.replace(/<(h[1-6]|p)[^>]*>[^<]*in this video[^<]*<\/\1>/gi, "");
+
   // Consistent Front&Centre(R) brand mark wherever it appears as text.
   s = s.replace(/Front\s*&amp;\s*Centre\s*(?:®|&reg;)?/gi, "Front&amp;Centre&reg;");
 
@@ -296,6 +303,18 @@ const ROGUE_IMAGES = {
   "resources/key-account-audits": ["Consultancy.jpg"],
   "resources/presentation-skills": ["Audits.jpg"],
 };
+// Service sub-pages get CTAs from the template, so strip redundant inline ones.
+function tidyService(html) {
+  return html
+    .replace(/<a class="btn"[^>]*href="\/contact\/"[^>]*>[\s\S]*?<\/a>/gi, "")
+    // headings/paragraphs that are just a redundant CTA label
+    .replace(/<(p|h[1-6])[^>]*>([\s\S]*?)<\/\1>/gi, (m, tag, inner) => {
+      const t = inner.replace(/<[^>]+>/g, "").trim().toUpperCase().replace(/[.!:]+$/, "");
+      return /^(GET IN TOUCH( TO BOOK)?|CONTACT( US)?|BOOK( NOW)?)$/.test(t) ? "" : m;
+    })
+    .replace(/<p[^>]*>\s*<\/p>/gi, "");
+}
+
 function stripRogue(html, route) {
   for (const file of ROGUE_IMAGES[route] || []) {
     const re = new RegExp(
@@ -319,7 +338,11 @@ for (const [id, route] of Object.entries(PAGES)) {
     route,
     title: decodeEntities(p.title.replace(/\s*\[(Copy|Old|BACKUP|test)[^\]]*\]/gi, "").trim()),
     slug: p.slug,
-    html: stripRogue(scrubLegal(cleanContent(p.content)), route),
+    html: (() => {
+      let h = stripRogue(scrubLegal(cleanContent(p.content)), route);
+      if (route.startsWith("services/")) h = tidyService(h);
+      return h;
+    })(),
     image: featuredImg(p),
   };
 }
