@@ -102,7 +102,23 @@ body {
 .prose li { margin: 0.35rem 0; }
 .prose img { max-width: 100%; height: auto; border-radius: 8px; }
 .prose figure { margin: 1.5rem 0; }
-.prose figure img { display: block; margin-inline: auto; }
+/* Keep portraits/banners from going full-bleed; large enough for infographics. */
+.prose figure img { display: block; margin-inline: auto; max-width: min(90%, 480px); }
+
+/* Bullet lists: the source wraps each item in an <h4> with stray <br>s. */
+.prose li br,
+.prose ul > br,
+.prose ol > br { display: none; }
+.prose li h1, .prose li h2, .prose li h3, .prose li h4 {
+  display: inline;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.prose li::marker { color: var(--brand); font-size: 1.1em; }
+.prose ul li { padding-left: 0.25rem; }
 .prose hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
 .prose strong { color: var(--ink); }
 .prose blockquote {
@@ -114,9 +130,15 @@ body {
 }
 
 /* WPBakery-derived widgets */
-.prose .stat { text-align: center; padding: 1rem; }
+.prose .stat {
+  display: inline-block;
+  width: 47%;
+  vertical-align: top;
+  text-align: center;
+  padding: 0.6rem 0.5rem;
+}
 .prose .stat-num {
-  font-size: 2.6rem;
+  font-size: 1.9rem;
   font-weight: 800;
   color: var(--brand);
   line-height: 1;
