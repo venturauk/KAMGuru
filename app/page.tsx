@@ -74,14 +74,14 @@ export default function Home() {
                 Explore our services
               </Link>
             </div>
-            <p className="mt-7 flex flex-wrap items-center gap-2 border-t border-white/10 pt-5 text-sm text-white/55">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand" aria-hidden />
+            <p className="mt-7 border-t border-white/10 pt-5 text-sm text-white/55">
+              <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-brand align-middle" aria-hidden />
               KAMguru is now{" "}
               <a
                 href="https://frontandcentre.com/kamguru/"
                 className="font-semibold text-brand hover:underline"
               >
-                Front &amp; Centre
+                Front &amp; Centre&reg;
               </a>
               . You&apos;re exploring the original KAMguru - our key account
               management work, through the lens that started it all.

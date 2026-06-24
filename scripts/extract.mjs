@@ -201,12 +201,12 @@ function cleanContent(raw) {
   // No em dashes — replace with a spaced hyphen.
   s = s.replace(/\s*—\s*/g, " - ");
 
-  // Rebrand banner image -> slim notice bar.
-  const REBRAND =
-    '<p class="rebrand-notice"><a href="https://frontandcentre.com/kamguru/">We have rebranded: KAMguru is now <strong>Front &amp; Centre</strong>. Visit our new website &rarr;</a></p>';
+  // Keep the designed Front & Centre rebrand banner; make it a full-width
+  // linked banner (tagged so CSS can size it as intended).
   s = s.replace(
-    /<figure[^>]*>(?:\s*<a[^>]*>)?\s*<img[^>]*src="[^"]*(?:Banner\.png|Rebrand\.jpg)"[^>]*>\s*(?:<\/a>)?\s*<\/figure>/gi,
-    REBRAND
+    /<figure[^>]*>(?:\s*<a[^>]*>)?\s*(<img[^>]*src="[^"]*(?:Banner\.png|Rebrand\.jpg)"[^>]*>)\s*(?:<\/a>)?\s*<\/figure>/gi,
+    (_, img) =>
+      `<figure class="rebrand-banner"><a href="https://frontandcentre.com/kamguru/" target="_blank" rel="noopener">${img}</a></figure>`
   );
 
   // Fix internal links (after shortcodes have become real <a> tags):
