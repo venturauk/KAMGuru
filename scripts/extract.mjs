@@ -122,6 +122,12 @@ function cleanContent(raw) {
   // Platform rename: muse.ai is now skiv.com (video IDs unchanged).
   s = s.replace(/muse\.ai/g, "skiv.com");
 
+  // Resource CTAs now point to the Front & Centre learning centre.
+  s = s.replace(
+    /https?:\/\/learn\.kamguru\.com\/[^\s"')]*/gi,
+    "https://frontandcentre.com/the-learning-centre"
+  );
+
   // HubSpot forms are consolidated onto the Contact page — strip inline embeds.
   s = s.replace(/<script[^>]*(?:hsforms\.net|hs-scripts\.com|hbspt)[^>]*><\/script>/gi, "");
   s = s.replace(/<script\b[^>]*>[\s\S]*?hbspt\.forms\.create[\s\S]*?<\/script>/gi, "");
