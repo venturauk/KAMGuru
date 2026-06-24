@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getEpisodes } from "@/lib/content";
 import { mediaUrl } from "@/lib/media";
 import Testimonials from "@/components/Testimonials";
+import Reveal from "@/components/Reveal";
 
 const pillars = [
   {
@@ -99,8 +100,8 @@ export default function Home() {
           <div className="rule-orange mx-auto mt-4" />
         </div>
         <div className="grid gap-8 md:grid-cols-3">
-          {pillars.map((p) => (
-            <div key={p.title}>
+          {pillars.map((p, i) => (
+            <Reveal key={p.title} delay={i * 100}>
               <div className="flex items-center gap-3">
                 <span className="flex h-12 w-12 items-center justify-center rounded-full bg-ink text-white">
                   <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -117,7 +118,7 @@ export default function Home() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -131,18 +132,19 @@ export default function Home() {
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {services.map((s, i) => (
-              <Link
-                key={s.href}
-                href={s.href}
-                className="group relative overflow-hidden rounded-2xl border border-line bg-white p-6 transition hover:-translate-y-1 hover:border-brand hover:shadow-xl"
-              >
-                <span className="font-display text-4xl font-extrabold text-line transition group-hover:text-brand/30">
-                  0{i + 1}
-                </span>
-                <h3 className="mt-2 text-lg font-bold text-ink group-hover:text-brand">{s.title}</h3>
-                <p className="mt-2 text-sm text-ink-soft">{s.blurb}</p>
-                <span className="mt-4 inline-block text-sm font-semibold text-brand-dark">Learn more →</span>
-              </Link>
+              <Reveal key={s.href} delay={i * 80} className="h-full">
+                <Link
+                  href={s.href}
+                  className="group card-lift relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white p-6 hover:border-brand"
+                >
+                  <span className="font-display text-4xl font-extrabold text-line transition group-hover:text-brand/30">
+                    0{i + 1}
+                  </span>
+                  <h3 className="mt-2 text-lg font-bold text-ink group-hover:text-brand">{s.title}</h3>
+                  <p className="mt-2 text-sm text-ink-soft">{s.blurb}</p>
+                  <span className="mt-4 inline-block text-sm font-semibold text-brand-dark">Learn more →</span>
+                </Link>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -167,7 +169,7 @@ export default function Home() {
               <Link
                 key={e.slug}
                 href={`/podcast/${e.slug}/`}
-                className="group overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-md"
+                className="group card-lift overflow-hidden rounded-2xl border border-line bg-white"
               >
                 {e.image && (
                   // eslint-disable-next-line @next/next/no-img-element

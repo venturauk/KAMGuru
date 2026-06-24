@@ -192,6 +192,12 @@ function cleanContent(raw) {
   // Strip all remaining wrapper/unknown shortcodes, keep inner content.
   s = s.replace(/\[\/?[\w-]+(?:[^\]]*)\]/g, "");
 
+  // Remove near-white inline text colours (invisible on white background).
+  s = s.replace(
+    /color:\s*#(?:fff(?:fff)?|f[0-9a-f]f[0-9a-f]f[0-9a-f]|fafafa|f5f5f5|f7f7f7|eee(?:eee)?|e5e5e5|ddd(?:ddd)?)\s*;?/gi,
+    ""
+  );
+
   // Fix internal links (after shortcodes have become real <a> tags):
   // service children live under /services/, and the discovery-call CTA
   // consolidates into the Contact page.

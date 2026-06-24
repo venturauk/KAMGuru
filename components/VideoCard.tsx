@@ -8,7 +8,7 @@ export default function VideoCard({ video }: { video: Video }) {
   const [playing, setPlaying] = useState(false);
 
   return (
-    <div className="overflow-hidden rounded-2xl border border-line bg-white shadow-sm">
+    <div className="card-lift overflow-hidden rounded-2xl border border-line bg-white shadow-sm">
       <div className="relative aspect-video bg-ink">
         {playing ? (
           <iframe

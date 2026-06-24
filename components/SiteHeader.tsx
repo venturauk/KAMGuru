@@ -1,15 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { nav } from "@/lib/content";
 import { mediaUrl } from "@/lib/media";
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur">
+    <header
+      className={`sticky top-0 z-50 border-b bg-white/95 backdrop-blur transition-shadow ${
+        scrolled ? "border-line shadow-sm" : "border-transparent"
+      }`}
+    >
       <div className="container-x flex h-16 items-center justify-between gap-4">
         <Link href="/" className="flex items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}

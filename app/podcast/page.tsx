@@ -36,7 +36,7 @@ export default function PodcastIndex() {
             <Link
               key={e.slug}
               href={`/podcast/${e.slug}/`}
-              className="group overflow-hidden rounded-2xl border border-line bg-white transition hover:shadow-md"
+              className="group card-lift overflow-hidden rounded-2xl border border-line bg-white"
             >
               {e.image && (
                 // eslint-disable-next-line @next/next/no-img-element
