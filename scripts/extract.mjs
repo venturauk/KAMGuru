@@ -128,6 +128,7 @@ function cleanContent(raw) {
     "https://frontandcentre.com/the-learning-centre"
   );
 
+
   // HubSpot forms are consolidated onto the Contact page — strip inline embeds.
   s = s.replace(/<script[^>]*(?:hsforms\.net|hs-scripts\.com|hbspt)[^>]*><\/script>/gi, "");
   s = s.replace(/<script\b[^>]*>[\s\S]*?hbspt\.forms\.create[\s\S]*?<\/script>/gi, "");
@@ -191,6 +192,12 @@ function cleanContent(raw) {
   // Strip all remaining wrapper/unknown shortcodes, keep inner content.
   s = s.replace(/\[\/?[\w-]+(?:[^\]]*)\]/g, "");
 
+  // Fix internal links (after shortcodes have become real <a> tags):
+  // service children live under /services/, and the discovery-call CTA
+  // consolidates into the Contact page.
+  s = s.replace(/href="\/(consultancy|coaching|training|speaking)\/"/g, 'href="/services/$1/"');
+  s = s.replace(/href="\/discoverycall\/?"/g, 'href="/contact/"');
+
   return autop(s).trim();
 }
 
@@ -229,6 +236,7 @@ const PAGES = {
   "15997": "resources/the-evolution-of-key-account-management",
   "15998": "resources/presentation-skills",
   "15321": "videos",
+  "15849": "top-10-tips-for-your-top-10-customers", // David's book
   "15893": "contact",
   "15777": "privacy-policy",
   "15827": "terms-and-conditions",
