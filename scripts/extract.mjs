@@ -228,6 +228,19 @@ const PAGES = {
   "15827": "terms-and-conditions",
 };
 
+// KAMguru is a privately owned brand (David Ventura) — scrub the old
+// BMD Learning Ltd company name, registered address and VAT number.
+function scrubLegal(html) {
+  return html
+    .replace(/<p[^>]*>\s*Registered address:[^<]*<\/p>\s*/gi, "")
+    .replace(/<p[^>]*>\s*Postal Address:[^<]*<\/p>\s*/gi, "")
+    .replace(/<p[^>]*>\s*VAT number:\s*\d[\d\s]*<\/p>\s*/gi, "")
+    .replace(/\s*Our VAT number is\s*\d[\d\s]*\.?/gi, "")
+    .replace(/BMD Learning LTD\s+T\/A\s+KAMGuru\./gi, "David Ventura. KAMguru is a privately owned brand.")
+    .replace(/owned and operated by BMD Learning LTD,\s*whose address is[^.]*\./gi, "owned and operated by David Ventura. KAMguru is a privately owned brand.")
+    .replace(/BMD Learning LTD/gi, "KAMguru");
+}
+
 const featuredImg = (p) => {
   const thumb = p.meta["_thumbnail_id"];
   return thumb ? mediaSrc(thumb) : "";
@@ -245,7 +258,7 @@ for (const [id, route] of Object.entries(PAGES)) {
     route,
     title: decodeEntities(p.title.replace(/\s*\[(Copy|Old|BACKUP|test)[^\]]*\]/gi, "").trim()),
     slug: p.slug,
-    html: cleanContent(p.content),
+    html: scrubLegal(cleanContent(p.content)),
     image: featuredImg(p),
   };
 }
