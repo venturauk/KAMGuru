@@ -46,36 +46,45 @@ export default function Home() {
   return (
     <>
       {/* Hero */}
-      <section className="page-hero">
-        <div className="page-hero__wedge" />
-        <div className="container-x relative grid items-center gap-10 py-16 lg:grid-cols-2 lg:py-24">
+      <section className="relative overflow-hidden bg-ink">
+        <div
+          className="pointer-events-none absolute -right-24 top-1/2 hidden h-[34rem] w-[34rem] -translate-y-1/2 rounded-full bg-brand/20 blur-3xl lg:block"
+          aria-hidden
+        />
+        <div className="container-x relative grid items-center gap-12 py-16 lg:grid-cols-[1.1fr_0.9fr] lg:py-24">
           <div className="text-white">
-            <p className="text-sm font-semibold uppercase tracking-widest text-white/80">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand">
               UK&apos;s leading key account management
             </p>
-            <h1 className="mt-3 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-              Jump ahead of your competitors
+            <h1 className="mt-4 text-5xl font-extrabold leading-[1.05] tracking-tight sm:text-6xl">
+              Jump ahead of your <span className="text-brand">competitors</span>
             </h1>
-            <div className="rule-orange mt-5" />
-            <p className="mt-5 max-w-xl text-lg text-white/85">
+            <p className="mt-6 max-w-xl text-lg text-white/75">
               KAMguru helps you develop profitable partnerships with your most
               important customers — often the 20% who produce 80% of the business.
               Stand out from competitors, don&apos;t just stand up to them.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/contact/" className="btn">Book a discovery call</Link>
-              <Link href="/services/" className="btn btn-outline !border-white !text-white hover:!bg-white hover:!text-ink">
+              <Link
+                href="/services/"
+                className="btn !bg-white/10 !text-white ring-1 ring-inset ring-white/25 hover:!bg-white hover:!text-ink"
+              >
                 Explore our services
               </Link>
             </div>
           </div>
-          <div className="relative hidden justify-self-end lg:block">
+          <div className="relative mx-auto w-full max-w-md lg:mx-0">
+            <div className="absolute -inset-4 rotate-3 rounded-3xl bg-brand" aria-hidden />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={mediaUrl("/wp-content/uploads/david-v.jpg")}
-              alt="David Ventura, KAMguru"
-              className="h-80 w-80 rounded-2xl object-cover shadow-2xl ring-4 ring-white/20"
+              alt="David Ventura, founder of KAMguru"
+              className="relative aspect-square w-full rounded-3xl object-cover shadow-2xl"
             />
+            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-white px-5 py-2 text-sm font-semibold text-ink shadow-lg">
+              David Ventura · Founder
+            </div>
           </div>
         </div>
       </section>
@@ -121,13 +130,16 @@ export default function Home() {
             <div className="rule-orange mx-auto mt-4" />
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {services.map((s) => (
+            {services.map((s, i) => (
               <Link
                 key={s.href}
                 href={s.href}
-                className="group rounded-2xl border border-line bg-white p-6 transition hover:border-brand hover:shadow-md"
+                className="group relative overflow-hidden rounded-2xl border border-line bg-white p-6 transition hover:-translate-y-1 hover:border-brand hover:shadow-xl"
               >
-                <h3 className="text-lg font-bold text-ink group-hover:text-brand">{s.title}</h3>
+                <span className="font-display text-4xl font-extrabold text-line transition group-hover:text-brand/30">
+                  0{i + 1}
+                </span>
+                <h3 className="mt-2 text-lg font-bold text-ink group-hover:text-brand">{s.title}</h3>
                 <p className="mt-2 text-sm text-ink-soft">{s.blurb}</p>
                 <span className="mt-4 inline-block text-sm font-semibold text-brand-dark">Learn more →</span>
               </Link>

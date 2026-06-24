@@ -10,7 +10,7 @@ export default function Testimonials() {
           <div className="rule-orange mx-auto mt-4" />
         </div>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {testimonials.map((t) => (
+          {testimonials.slice(0, 6).map((t) => (
             <figure
               key={t.name}
               className="flex flex-col rounded-2xl border border-line bg-[var(--bg-soft)] p-6"
