@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useId } from "react";
 
 declare global {
   interface Window {
@@ -8,7 +8,7 @@ declare global {
   }
 }
 
-/** Embeds a single HubSpot form (loads the v2 embed script once). */
+/** Embeds a single HubSpot form into its own div (target must be a selector). */
 export default function HubSpotForm({
   portalId,
   formId,
@@ -18,15 +18,18 @@ export default function HubSpotForm({
   formId: string;
   region?: string;
 }) {
-  const targetRef = useRef<HTMLDivElement>(null);
+  const targetId = `hs-form-${useId().replace(/[^a-z0-9]/gi, "")}`;
 
   useEffect(() => {
-    const target = targetRef.current;
-    if (!target) return;
-
     const create = () => {
-      if (window.hbspt && target && target.childElementCount === 0) {
-        window.hbspt.forms.create({ region, portalId, formId, target });
+      const el = document.getElementById(targetId);
+      if (window.hbspt && el && el.childElementCount === 0) {
+        window.hbspt.forms.create({
+          region,
+          portalId,
+          formId,
+          target: `#${targetId}`,
+        });
       }
     };
 
@@ -46,7 +49,7 @@ export default function HubSpotForm({
       s.addEventListener("load", create);
       document.body.appendChild(s);
     }
-  }, [portalId, formId, region]);
+  }, [targetId, portalId, formId, region]);
 
-  return <div ref={targetRef} />;
+  return <div id={targetId} />;
 }

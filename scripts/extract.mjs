@@ -205,7 +205,9 @@ function cleanContent(raw) {
   // Convert long heading tags that are really sentences back into paragraphs.
   s = s.replace(/<(h3|h4)([^>]*)>([\s\S]*?)<\/\1>/gi, (m, tag, attr, inner) => {
     const text = inner.replace(/<[^>]+>/g, "").trim();
-    return text.length > 70 ? `<p${attr}>${inner}</p>` : m;
+    const limit = tag.toLowerCase() === "h4" ? 45 : 70;
+    const isBody = /[.!?]$/.test(text) || text.length > limit;
+    return isBody ? `<p${attr}>${inner}</p>` : m;
   });
 
   // Consistent Front&Centre(R) brand mark wherever it appears as text.
@@ -355,6 +357,19 @@ const videos = all
   })
   .filter((v) => v.muse);
 writeFileSync(`${OUT}/videos.json`, JSON.stringify(videos, null, 2));
+
+// ---- client logos (from the Clients page) ---------------------------------
+const clientsPage = byId.get("14942");
+const clientLogos = clientsPage
+  ? [
+      ...new Set(
+        [...cleanContent(clientsPage.content).matchAll(/<img[^>]*src="([^"]+)"/g)].map(
+          (m) => m[1]
+        )
+      ),
+    ].filter((s) => !/logo_white_symbol_bg_500px|Banner\.png|Rebrand\.jpg/i.test(s))
+  : [];
+writeFileSync(`${OUT}/clients.json`, JSON.stringify(clientLogos, null, 2));
 
 // ---- testimonials ----------------------------------------------------------
 const stripTags = (s) => (s || "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
