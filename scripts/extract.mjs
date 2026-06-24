@@ -238,7 +238,9 @@ function scrubLegal(html) {
     .replace(/\s*Our VAT number is\s*\d[\d\s]*\.?/gi, "")
     .replace(/BMD Learning LTD\s+T\/A\s+KAMGuru\./gi, "David Ventura. KAMguru is a privately owned brand.")
     .replace(/owned and operated by BMD Learning LTD,\s*whose address is[^.]*\./gi, "owned and operated by David Ventura. KAMguru is a privately owned brand.")
-    .replace(/BMD Learning LTD/gi, "KAMguru");
+    .replace(/BMD Learning LTD/gi, "KAMguru")
+    .replace(/the email or postal addresses shown/gi, "the email address shown")
+    .replace(/email or postal address/gi, "email address");
 }
 
 const featuredImg = (p) => {
