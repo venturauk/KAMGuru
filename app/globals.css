@@ -153,3 +153,49 @@ body {
   margin: 1.5rem 0;
 }
 .prose .btn { color: #fff; text-decoration: none; }
+
+/* ---------- inner-page hero with signature orange diagonal ---------- */
+.page-hero {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--ink);
+  isolation: isolate;
+}
+.page-hero__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  z-index: -2;
+}
+.page-hero__bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(20, 25, 33, 0.86) 0%,
+    rgba(20, 25, 33, 0.55) 45%,
+    rgba(20, 25, 33, 0.2) 100%
+  );
+}
+.page-hero__wedge {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 48%;
+  background: var(--brand);
+  opacity: 0.9;
+  clip-path: polygon(42% 0, 100% 0, 100% 100%, 0% 100%);
+  z-index: -1;
+}
+@media (max-width: 640px) {
+  .page-hero__wedge { width: 70%; opacity: 0.85; }
+}
+
+/* short orange divider used under headings */
+.rule-orange {
+  width: 56px;
+  height: 4px;
+  background: var(--brand);
+  border-radius: 2px;
+}

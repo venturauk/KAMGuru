@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import TopBar from "@/components/TopBar";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 
@@ -19,6 +20,7 @@ export default function RootLayout({
   return (
     <html lang="en-GB" className="h-full antialiased">
       <body className="min-h-full flex flex-col">
+        <TopBar />
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <SiteFooter />

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPage, pageRoutes } from "@/lib/content";
 import Html from "@/components/Html";
+import PageHero from "@/components/PageHero";
 
 export const dynamicParams = false;
 
@@ -30,13 +31,7 @@ export default async function CatchAllPage({
 
   return (
     <>
-      <section className="border-b border-line bg-[var(--bg-soft)]">
-        <div className="container-x py-12">
-          <h1 className="text-4xl font-extrabold tracking-tight text-ink">
-            {page.title}
-          </h1>
-        </div>
-      </section>
+      <PageHero title={page.title} image={page.image} />
       <article className="container-x py-12">
         <Html html={page.html} />
       </article>

@@ -1,6 +1,10 @@
 import pagesData from "@/data/pages.json";
 import podcastData from "@/data/podcast.json";
 import navData from "@/data/nav.json";
+import testimonialsData from "@/data/testimonials.json";
+
+export type Testimonial = { name: string; role: string; quote: string };
+export const testimonials = testimonialsData as Testimonial[];
 
 export type Page = {
   id: string;

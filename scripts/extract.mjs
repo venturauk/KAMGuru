@@ -240,6 +240,18 @@ const podcast = all
   })
   .sort((a, b) => a.number - b.number);
 
+// ---- testimonials ----------------------------------------------------------
+const stripTags = (s) => (s || "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+const testimonials = all
+  .filter((p) => p.type === "dt_testimonials" && p.status === "publish")
+  .map((p) => ({
+    name: p.title.trim(),
+    role: p.meta["_dt_testimonial_options_position"] || "",
+    quote: stripTags(p.excerpt).replace(/^[“"”]+|[“"”]+$/g, "").trim(),
+  }))
+  .filter((t) => t.quote);
+writeFileSync(`${OUT}/testimonials.json`, JSON.stringify(testimonials, null, 2));
+
 // ---- navigation ------------------------------------------------------------
 const nav = [
   { label: "Home", href: "/" },
@@ -274,9 +286,10 @@ const nav = [
 
 writeFileSync(`${OUT}/pages.json`, JSON.stringify(pages, null, 2));
 writeFileSync(`${OUT}/podcast.json`, JSON.stringify(podcast, null, 2));
-writeFileSync(`${OUT}/nav.json`, JSON.stringify(nav, null, 2));
 writeFileSync(`${OUT}/media.json`, JSON.stringify(attachments, null, 2));
 
+writeFileSync(`${OUT}/nav.json`, JSON.stringify(nav, null, 2));
+
 console.log(
-  `Extracted ${Object.keys(pages).length} pages, ${podcast.length} podcast episodes, ${Object.keys(attachments).length} media items.`
+  `Extracted ${Object.keys(pages).length} pages, ${podcast.length} podcast episodes, ${testimonials.length} testimonials, ${Object.keys(attachments).length} media items.`
 );
