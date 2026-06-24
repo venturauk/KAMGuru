@@ -109,7 +109,8 @@ body {
 .prose li br,
 .prose ul > br,
 .prose ol > br { display: none; }
-.prose li h1, .prose li h2, .prose li h3, .prose li h4 {
+.prose li h1, .prose li h2, .prose li h3, .prose li h4,
+.prose li > p {
   display: inline;
   margin: 0;
   font-size: 1rem;

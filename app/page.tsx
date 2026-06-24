@@ -81,7 +81,7 @@ export default function Home() {
                 href="https://frontandcentre.com/kamguru/"
                 className="font-semibold text-brand hover:underline"
               >
-                Front &amp; Centre&reg;
+                Front&amp;Centre&reg;
               </a>
               . You&apos;re exploring the original KAMguru - our key account
               management work, through the lens that started it all.

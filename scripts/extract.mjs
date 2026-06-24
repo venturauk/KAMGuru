@@ -201,6 +201,16 @@ function cleanContent(raw) {
   // No em dashes — replace with a spaced hyphen.
   s = s.replace(/\s*—\s*/g, " - ");
 
+  // The source over-uses <h3>/<h4> for body copy (whole bold paragraphs).
+  // Convert long heading tags that are really sentences back into paragraphs.
+  s = s.replace(/<(h3|h4)([^>]*)>([\s\S]*?)<\/\1>/gi, (m, tag, attr, inner) => {
+    const text = inner.replace(/<[^>]+>/g, "").trim();
+    return text.length > 70 ? `<p${attr}>${inner}</p>` : m;
+  });
+
+  // Consistent Front&Centre(R) brand mark wherever it appears as text.
+  s = s.replace(/Front\s*&amp;\s*Centre\s*(?:®|&reg;)?/gi, "Front&amp;Centre&reg;");
+
   // Keep the designed Front & Centre rebrand banner; make it a full-width
   // linked banner (tagged so CSS can size it as intended).
   s = s.replace(
