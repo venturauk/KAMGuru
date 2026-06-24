@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { nav } from "@/lib/content";
+import { mediaUrl } from "@/lib/media";
 
 export default function SiteHeader() {
   const [open, setOpen] = useState(false);
@@ -10,9 +11,13 @@ export default function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-white/95 backdrop-blur">
       <div className="container-x flex h-16 items-center justify-between gap-4">
-        <Link href="/" className="flex items-center gap-2 font-extrabold text-xl tracking-tight">
-          <span className="text-ink">KAM</span>
-          <span className="text-brand">guru</span>
+        <Link href="/" className="flex items-center">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={mediaUrl("/wp-content/uploads/logo_240.png")}
+            alt="KAMguru"
+            className="h-9 w-auto"
+          />
         </Link>
 
         {/* desktop nav */}
