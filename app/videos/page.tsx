@@ -6,7 +6,7 @@ import { getVideos } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Videos",
   description:
-    "Bite-size key account management videos from KAMguru — practical KAM insights from David Ventura.",
+    "Bite-size key account management videos from KAMguru - practical KAM insights from David Ventura.",
 };
 
 export default function VideosPage() {

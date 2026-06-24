@@ -93,7 +93,7 @@ const decodeEntities = (s) =>
       return Number.isNaN(n) ? m : String.fromCodePoint(n);
     }
     return NAMED[e.toLowerCase()] ?? m;
-  });
+  }).replace(/\s*—\s*/g, " - "); // no em dashes
 
 function videoEmbed(url) {
   if (!url) return "";
@@ -198,6 +198,17 @@ function cleanContent(raw) {
     ""
   );
 
+  // No em dashes — replace with a spaced hyphen.
+  s = s.replace(/\s*—\s*/g, " - ");
+
+  // Rebrand banner image -> slim notice bar.
+  const REBRAND =
+    '<p class="rebrand-notice"><a href="https://frontandcentre.com/kamguru/">We have rebranded: KAMguru is now <strong>Front &amp; Centre</strong>. Visit our new website &rarr;</a></p>';
+  s = s.replace(
+    /<figure[^>]*>(?:\s*<a[^>]*>)?\s*<img[^>]*src="[^"]*(?:Banner\.png|Rebrand\.jpg)"[^>]*>\s*(?:<\/a>)?\s*<\/figure>/gi,
+    REBRAND
+  );
+
   // Fix internal links (after shortcodes have become real <a> tags):
   // service children live under /services/, and the discovery-call CTA
   // consolidates into the Contact page.
@@ -268,6 +279,22 @@ const featuredImg = (p) => {
   return thumb ? mediaSrc(thumb) : "";
 };
 
+// Rogue images carried over from the old page builder (wrong image on a page).
+const ROGUE_IMAGES = {
+  "resources/key-account-audits": ["Consultancy.jpg"],
+  "resources/presentation-skills": ["Audits.jpg"],
+};
+function stripRogue(html, route) {
+  for (const file of ROGUE_IMAGES[route] || []) {
+    const re = new RegExp(
+      `<figure[^>]*>(?:\\s*<a[^>]*>)?\\s*<img[^>]*src="[^"]*${file.replace(/\./g, "\\.")}"[^>]*>\\s*(?:</a>)?\\s*</figure>`,
+      "gi"
+    );
+    html = html.replace(re, "");
+  }
+  return html;
+}
+
 const pages = {};
 for (const [id, route] of Object.entries(PAGES)) {
   const p = byId.get(id);
@@ -280,7 +307,7 @@ for (const [id, route] of Object.entries(PAGES)) {
     route,
     title: decodeEntities(p.title.replace(/\s*\[(Copy|Old|BACKUP|test)[^\]]*\]/gi, "").trim()),
     slug: p.slug,
-    html: scrubLegal(cleanContent(p.content)),
+    html: stripRogue(scrubLegal(cleanContent(p.content)), route),
     image: featuredImg(p),
   };
 }

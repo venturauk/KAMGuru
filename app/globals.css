@@ -172,6 +172,22 @@ body {
   margin: 1.5rem 0;
 }
 .prose .gallery img { width: 100%; border-radius: 8px; }
+.prose .rebrand-notice {
+  margin: 1.25rem 0;
+  border: 1px solid var(--brand);
+  background: color-mix(in srgb, var(--brand) 8%, white);
+  border-radius: 10px;
+  padding: 0.7rem 1.1rem;
+  font-size: 0.95rem;
+  text-align: center;
+}
+.prose .rebrand-notice a {
+  color: var(--brand-dark);
+  text-decoration: none;
+  font-weight: 500;
+}
+.prose .rebrand-notice a:hover { text-decoration: underline; }
+
 .prose .note {
   background: var(--bg-soft);
   border: 1px solid var(--line);

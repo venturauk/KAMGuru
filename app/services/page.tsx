@@ -6,7 +6,7 @@ import Reveal from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "KAMguru's key account management services — consultancy, coaching, training and speaking.",
+    "KAMguru's key account management services - consultancy, coaching, training and speaking.",
 };
 
 const services = [
@@ -14,7 +14,7 @@ const services = [
     title: "Consultancy",
     href: "/services/consultancy/",
     blurb:
-      "Work with a KAM implementation consultancy that focuses on getting your business the best results — from boardroom strategy through to the field.",
+      "Work with a KAM implementation consultancy that focuses on getting your business the best results - from boardroom strategy through to the field.",
   },
   {
     title: "Coaching",
@@ -40,7 +40,7 @@ const more = [
   {
     title: "The Book",
     href: "/top-10-tips-for-your-top-10-customers/",
-    blurb: "Top 10 Tips For Your Top 10 Customers — practical advice you can apply today.",
+    blurb: "Top 10 Tips For Your Top 10 Customers - practical advice you can apply today.",
   },
   {
     title: "Resources",
@@ -61,7 +61,7 @@ export default function ServicesPage() {
       <section className="container-x py-14">
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-lg text-ink-soft">
-            The mission is simple — jump ahead of your competitors and look after
+            The mission is simple - jump ahead of your competitors and look after
             your most important customers before someone else does. We tailor a
             blend of consulting, training, coaching and speaking to your business.
           </p>

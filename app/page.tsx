@@ -62,7 +62,7 @@ export default function Home() {
             </h1>
             <p className="mt-6 max-w-xl text-lg text-white/75">
               KAMguru helps you develop profitable partnerships with your most
-              important customers — often the 20% who produce 80% of the business.
+              important customers - often the 20% who produce 80% of the business.
               Stand out from competitors, don&apos;t just stand up to them.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -74,6 +74,18 @@ export default function Home() {
                 Explore our services
               </Link>
             </div>
+            <p className="mt-7 flex flex-wrap items-center gap-2 border-t border-white/10 pt-5 text-sm text-white/55">
+              <span className="inline-block h-1.5 w-1.5 rounded-full bg-brand" aria-hidden />
+              KAMguru is now{" "}
+              <a
+                href="https://frontandcentre.com/kamguru/"
+                className="font-semibold text-brand hover:underline"
+              >
+                Front &amp; Centre
+              </a>
+              . You&apos;re exploring the original KAMguru - our key account
+              management work, through the lens that started it all.
+            </p>
           </div>
           <div className="relative mx-auto w-full max-w-md lg:mx-0">
             <div className="absolute -inset-4 rotate-3 rounded-3xl bg-brand" aria-hidden />

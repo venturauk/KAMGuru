@@ -6,7 +6,7 @@ import { mediaUrl } from "@/lib/media";
 export const metadata: Metadata = {
   title: "KAMCast Podcast",
   description:
-    "KAMCast — key account management strategies for business leaders, hosted by David Ventura.",
+    "KAMCast - key account management strategies for business leaders, hosted by David Ventura.",
 };
 
 export default function PodcastIndex() {
@@ -24,7 +24,7 @@ export default function PodcastIndex() {
           </h1>
           <p className="mt-4 max-w-2xl text-white/80">
             Strategies, stories and practical ideas for business leaders and key
-            account managers — hosted by David Ventura. {episodes.length}{" "}
+            account managers - hosted by David Ventura. {episodes.length}{" "}
             episodes and counting.
           </p>
         </div>

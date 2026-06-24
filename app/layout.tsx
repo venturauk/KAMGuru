@@ -19,7 +19,24 @@ export const metadata: Metadata = {
     template: "%s | KAMguru",
   },
   description:
-    "KAMguru is the UK's leading key account management (KAM) consultancy — helping you build profitable partnerships with your most important customers.",
+    "KAMguru is the UK's leading key account management (KAM) consultancy - helping you build profitable partnerships with your most important customers.",
+  openGraph: {
+    type: "website",
+    locale: "en_GB",
+    url: "https://www.kamguru.com",
+    siteName: "KAMguru",
+    title: "KAMguru | Key Account Management Consultancy & Training",
+    description:
+      "Develop profitable partnerships with your most important customers - KAM consultancy, training, coaching and speaking.",
+    images: [{ url: "/og-default.png", width: 1200, height: 630, alt: "KAMguru" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "KAMguru | Key Account Management Consultancy & Training",
+    description:
+      "Develop profitable partnerships with your most important customers - KAM consultancy, training, coaching and speaking.",
+    images: ["/og-default.png"],
+  },
 };
 
 export default function RootLayout({
