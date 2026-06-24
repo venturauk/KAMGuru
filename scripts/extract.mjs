@@ -194,7 +194,7 @@ function cleanContent(raw) {
 
   // Remove near-white inline text colours (invisible on white background).
   s = s.replace(
-    /color:\s*#(?:fff(?:fff)?|f[0-9a-f]f[0-9a-f]f[0-9a-f]|fafafa|f5f5f5|f7f7f7|eee(?:eee)?|e5e5e5|ddd(?:ddd)?)\s*;?/gi,
+    /color:\s*#(?:fff(?:fff)?|f[0-9a-f]f[0-9a-f]f[0-9a-f]|fafafa|f5f5f5|f7f7f7|eee(?:eee)?|e5e5e5|ddd(?:ddd)?|ccc(?:ccc)?|bbb(?:bbb)?)\s*;?/gi,
     ""
   );
 
