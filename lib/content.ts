@@ -2,9 +2,13 @@ import pagesData from "@/data/pages.json";
 import podcastData from "@/data/podcast.json";
 import navData from "@/data/nav.json";
 import testimonialsData from "@/data/testimonials.json";
+import videosData from "@/data/videos.json";
 
 export type Testimonial = { name: string; role: string; quote: string };
 export const testimonials = testimonialsData as Testimonial[];
+
+export type Video = { title: string; muse: string; thumb: string };
+export const getVideos = (): Video[] => videosData as Video[];
 
 export type Page = {
   id: string;
@@ -40,9 +44,10 @@ export function getPage(route: string): Page | undefined {
   return pages[route];
 }
 
-/** All curated page routes except the home route (""), as path segments. */
+/** Curated page routes for the generic [...slug] renderer.
+ *  Excludes the home route ("") and routes with a dedicated page (videos). */
 export function pageRoutes(): string[] {
-  return Object.keys(pages).filter((r) => r !== "");
+  return Object.keys(pages).filter((r) => r !== "" && r !== "videos");
 }
 
 export function getEpisodes(): Episode[] {

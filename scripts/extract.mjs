@@ -264,6 +264,18 @@ const podcast = all
   })
   .sort((a, b) => a.number - b.number);
 
+// ---- videos (dt_portfolio with Muse.ai embeds) -----------------------------
+const videos = all
+  .filter((p) => p.type === "dt_portfolio" && p.status === "publish")
+  .map((p) => {
+    const cleaned = cleanContent(p.content);
+    const muse = (cleaned.match(/data-video=["']([\w-]+)["']/) || [])[1] || "";
+    const thumb = p.meta["_thumbnail_id"] ? mediaSrc(p.meta["_thumbnail_id"]) : "";
+    return { title: decodeEntities(p.title.trim()), muse, thumb };
+  })
+  .filter((v) => v.muse);
+writeFileSync(`${OUT}/videos.json`, JSON.stringify(videos, null, 2));
+
 // ---- testimonials ----------------------------------------------------------
 const stripTags = (s) => (s || "").replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
 const testimonials = all
