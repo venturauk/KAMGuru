@@ -277,32 +277,13 @@ const testimonials = all
 writeFileSync(`${OUT}/testimonials.json`, JSON.stringify(testimonials, null, 2));
 
 // ---- navigation ------------------------------------------------------------
+// Flat top-level menu — matches the live kamguru.com structure (parent pages
+// only). Sub-pages remain reachable from within Services / Resources.
 const nav = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about/" },
-  {
-    label: "Services",
-    href: "/services/",
-    children: [
-      { label: "Consultancy", href: "/services/consultancy/" },
-      { label: "Coaching", href: "/services/coaching/" },
-      { label: "Training", href: "/services/training/" },
-      { label: "Speaking", href: "/services/speaking/" },
-    ],
-  },
-  {
-    label: "Resources",
-    href: "/resources/",
-    children: [
-      { label: "The Pareto Principle", href: "/resources/the-pareto-principle/" },
-      { label: "Key Account Audits", href: "/resources/key-account-audits/" },
-      { label: "Partnership Indicators", href: "/resources/partnership-indicators/" },
-      { label: "KASH Profile", href: "/resources/kash-profile/" },
-      { label: "Probability Factors", href: "/resources/probability-factors/" },
-      { label: "The Evolution of KAM", href: "/resources/the-evolution-of-key-account-management/" },
-      { label: "Presentation Skills", href: "/resources/presentation-skills/" },
-    ],
-  },
+  { label: "Services", href: "/services/" },
+  { label: "Resources", href: "/resources/" },
   { label: "Videos", href: "/videos/" },
   { label: "Podcast", href: "/podcast/" },
   { label: "Contact", href: "/contact/" },
