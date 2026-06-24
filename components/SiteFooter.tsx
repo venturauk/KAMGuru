@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { nav } from "@/lib/content";
+import { mediaUrl } from "@/lib/media";
 
 export default function SiteFooter() {
   const year = new Date().getFullYear();
@@ -7,10 +8,12 @@ export default function SiteFooter() {
     <footer className="mt-20 border-t border-line bg-[var(--bg-soft)]">
       <div className="container-x grid gap-8 py-12 sm:grid-cols-2 lg:grid-cols-4">
         <div>
-          <div className="text-xl font-extrabold">
-            <span className="text-ink">KAM</span>
-            <span className="text-brand">guru</span>
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={mediaUrl("/wp-content/uploads/logo_240.png")}
+            alt="KAMguru"
+            className="h-10 w-auto"
+          />
           <p className="mt-3 max-w-xs text-sm text-ink-soft">
             The UK&apos;s leading key account management consultancy — helping you
             build profitable partnerships with your most important customers.
