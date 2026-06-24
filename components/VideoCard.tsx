@@ -13,7 +13,7 @@ export default function VideoCard({ video }: { video: Video }) {
         {playing ? (
           <iframe
             className="absolute inset-0 h-full w-full"
-            src={`https://muse.ai/embed/${video.muse}?logo=0&links=0&search=0&autoplay=1`}
+            src={`https://skiv.com/embed/${video.muse}?logo=0&links=0&search=0&autoplay=1`}
             title={video.title}
             allow="autoplay; fullscreen; picture-in-picture"
             allowFullScreen

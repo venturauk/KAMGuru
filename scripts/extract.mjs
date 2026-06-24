@@ -119,6 +119,14 @@ function cleanContent(raw) {
 
   s = rootRel(s);
 
+  // Platform rename: muse.ai is now skiv.com (video IDs unchanged).
+  s = s.replace(/muse\.ai/g, "skiv.com");
+
+  // HubSpot forms are consolidated onto the Contact page — strip inline embeds.
+  s = s.replace(/<script[^>]*(?:hsforms\.net|hs-scripts\.com|hbspt)[^>]*><\/script>/gi, "");
+  s = s.replace(/<script\b[^>]*>[\s\S]*?hbspt\.forms\.create[\s\S]*?<\/script>/gi, "");
+  s = s.replace(/<div[^>]*(?:hbspt-form|hubspotForm|hs-form-frame|id=["']hsForm)[^>]*>[\s\S]*?<\/div>/gi, "");
+
   // Self-closing / single shortcodes with payloads -> real HTML
   s = s.replace(/\[vc_single_image\b([^\]]*)\]/g, (_, a) => {
     const at = attrs(a);

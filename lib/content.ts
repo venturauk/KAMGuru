@@ -47,7 +47,9 @@ export function getPage(route: string): Page | undefined {
 /** Curated page routes for the generic [...slug] renderer.
  *  Excludes the home route ("") and routes with a dedicated page (videos). */
 export function pageRoutes(): string[] {
-  return Object.keys(pages).filter((r) => r !== "" && r !== "videos");
+  return Object.keys(pages).filter(
+    (r) => r !== "" && r !== "videos" && r !== "contact"
+  );
 }
 
 export function getEpisodes(): Episode[] {
