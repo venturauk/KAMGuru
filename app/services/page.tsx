@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageHero from "@/components/PageHero";
 import Reveal from "@/components/Reveal";
+import { mediaUrl } from "@/lib/media";
 
 export const metadata: Metadata = {
   title: "Services",
@@ -13,39 +14,44 @@ const services = [
   {
     title: "Consultancy",
     href: "/services/consultancy/",
+    image: "/wp-content/uploads/Consultancy.jpg",
     blurb:
-      "Work with a KAM implementation consultancy that focuses on getting your business the best results - from boardroom strategy through to the field.",
+      "Work with a KAM implementation consultancy focused on getting your business the best results - boardroom to the field.",
   },
   {
     title: "Coaching",
     href: "/services/coaching/",
+    image: "/wp-content/uploads/Coaching.jpg",
     blurb:
-      "One-to-one and team coaching that builds the relationship skills and confidence your key account managers need to deliver.",
+      "One-to-one and team coaching to sharpen the skills and confidence of your key account managers.",
   },
   {
     title: "Training",
     href: "/services/training/",
+    image: "/wp-content/uploads/Training.jpg",
     blurb:
-      "Practical, high-energy workshops that turn KAM strategies, systems and skills into everyday habits across your business.",
+      "Practical, high-energy workshops that turn KAM strategies, systems and skills into everyday habits.",
   },
   {
     title: "Speaking",
     href: "/services/speaking/",
+    image: "/wp-content/uploads/Speaking-003.jpg",
     blurb:
-      "An interactive, engaging and effective session on the principles of key account management for your event or team.",
+      "An interactive, engaging session on the principles of key account management for your event or team.",
   },
-];
-
-const more = [
   {
     title: "The Book",
     href: "/top-10-tips-for-your-top-10-customers/",
-    blurb: "Top 10 Tips For Your Top 10 Customers - practical advice you can apply today.",
+    image: "/wp-content/uploads/Book.jpg",
+    blurb:
+      "Top 10 Tips For Your Top 10 Customers - practical advice you can put into practice today.",
   },
   {
     title: "Resources",
     href: "/resources/",
-    blurb: "Audits, frameworks and tools to help you understand and grow your key accounts.",
+    image: "/wp-content/uploads/Resources-29.6.jpg",
+    blurb:
+      "Audits, frameworks and tools to help you understand and grow your most important customers.",
   },
 ];
 
@@ -68,33 +74,33 @@ export default function ServicesPage() {
           <div className="rule-orange mx-auto mt-5" />
         </div>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-2">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s, i) => (
-            <Reveal key={s.href} delay={i * 80} className="h-full">
+            <Reveal key={s.href} delay={i * 70} className="h-full">
               <Link
                 href={s.href}
-                className="group card-lift flex h-full flex-col rounded-2xl border border-line bg-white p-7 hover:border-brand"
+                className="card-lift group flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white"
               >
-                <div className="flex items-center justify-between">
-                  <h2 className="text-xl font-bold text-ink group-hover:text-brand">{s.title}</h2>
-                  <span className="text-brand transition group-hover:translate-x-1">→</span>
+                <div className="overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={mediaUrl(s.image)}
+                    alt={s.title}
+                    loading="lazy"
+                    className="aspect-[625/446] w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
                 </div>
-                <p className="mt-3 text-ink-soft">{s.blurb}</p>
+                <div className="flex flex-1 flex-col p-5">
+                  <h2 className="text-lg font-bold text-ink group-hover:text-brand">
+                    {s.title}
+                  </h2>
+                  <p className="mt-2 flex-1 text-sm text-ink-soft">{s.blurb}</p>
+                  <span className="mt-3 text-sm font-semibold text-brand-dark">
+                    Learn more →
+                  </span>
+                </div>
               </Link>
             </Reveal>
-          ))}
-        </div>
-
-        <div className="mt-6 grid gap-6 sm:grid-cols-2">
-          {more.map((s) => (
-            <Link
-              key={s.href}
-              href={s.href}
-              className="group card-lift block rounded-2xl border border-line bg-[var(--bg-soft)] p-7 hover:border-brand"
-            >
-              <h2 className="text-lg font-bold text-ink group-hover:text-brand">{s.title}</h2>
-              <p className="mt-2 text-sm text-ink-soft">{s.blurb}</p>
-            </Link>
           ))}
         </div>
       </section>
