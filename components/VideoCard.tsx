@@ -13,7 +13,11 @@ export default function VideoCard({ video }: { video: Video }) {
         {playing ? (
           <iframe
             className="absolute inset-0 h-full w-full"
-            src={`https://skiv.com/embed/${video.muse}?logo=0&links=0&search=0&autoplay=1`}
+            src={
+              video.vimeo
+                ? `https://player.vimeo.com/video/${video.vimeo.id}?autoplay=1&title=0&byline=0&portrait=0${video.vimeo.hash ? `&h=${video.vimeo.hash}` : ""}`
+                : `https://skiv.com/embed/${video.muse}?logo=0&links=0&search=0&autoplay=1`
+            }
             title={video.title}
             allow="autoplay; fullscreen; picture-in-picture"
             allowFullScreen
