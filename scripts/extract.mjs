@@ -373,8 +373,15 @@ const podcast = all
 const videos = all
   .filter((p) => p.type === "dt_portfolio" && p.status === "publish")
   .map((p) => {
-    const cleaned = cleanContent(p.content);
-    const muse = (cleaned.match(/data-video=["']([\w-]+)["']/) || [])[1] || "";
+    // Read the player id from the raw content (cleanContent strips the player div).
+    const raw = p.content.replace(/\[vc_raw_html\]([\s\S]*?)\[\/vc_raw_html\]/g, (_, b64) => {
+      try {
+        return decodeURIComponent(Buffer.from(b64.trim(), "base64").toString("utf8"));
+      } catch {
+        return "";
+      }
+    });
+    const muse = (raw.match(/data-video=["']([\w-]+)["']/) || [])[1] || "";
     const thumb = p.meta["_thumbnail_id"] ? mediaSrc(p.meta["_thumbnail_id"]) : "";
     return { title: decodeEntities(p.title.trim()), muse, thumb };
   })
