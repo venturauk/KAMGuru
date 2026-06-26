@@ -385,7 +385,7 @@ const videos = all
     const thumb = p.meta["_thumbnail_id"] ? mediaSrc(p.meta["_thumbnail_id"]) : "";
     return { title: decodeEntities(p.title.trim()), muse, thumb };
   })
-  .filter((v) => v.muse);
+  .filter((v) => v.muse && v.muse !== "xFZBAdi"); // exclude Next Practice with Dick Fosbury
 writeFileSync(`${OUT}/videos.json`, JSON.stringify(videos, null, 2));
 
 // ---- client logos (from the Clients page) ---------------------------------
