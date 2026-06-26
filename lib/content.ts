@@ -24,6 +24,7 @@ const VIMEO: Record<string, { id: string; hash?: string }> = {
   "931X4gD": { id: "1204308237", hash: "8af9b2d8fb" }, // Exceeding Customer Expectations (KAM is like tennis)
   s6dqh9A: { id: "1204308201", hash: "633c12599b" }, // If Adding Value Was A Crime
   Q1PvPpf: { id: "1204308231", hash: "461ddd13b8" }, // Key Account Audits
+  ZE1mCz6: { id: "1204308224", hash: "f94a1163ce" }, // Focus and KAM Clarity
 };
 
 export const getVideos = (): Video[] =>
