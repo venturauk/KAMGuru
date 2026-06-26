@@ -290,7 +290,10 @@ function scrubLegal(html) {
     .replace(/owned and operated by BMD Learning LTD,\s*whose address is[^.]*\./gi, "owned and operated by David Ventura. KAMguru is a privately owned brand.")
     .replace(/BMD Learning LTD/gi, "KAMguru")
     .replace(/the email or postal addresses shown/gi, "the email address shown")
-    .replace(/email or postal address/gi, "email address");
+    .replace(/email or postal address/gi, "email address")
+    // KAMguru is a brand owned by David Ventura, not a company.
+    .replace(/Company profile/gi, "Who We Are")
+    .replace(/the company['’]s business/gi, "our business");
 }
 
 const featuredImg = (p) => {
