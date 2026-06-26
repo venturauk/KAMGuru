@@ -234,7 +234,13 @@ function cleanContent(raw) {
   s = s.replace(/href="\/(consultancy|coaching|training|speaking)\/"/g, 'href="/services/$1/"');
   s = s.replace(/href="\/discoverycall\/?"/g, 'href="/contact/"');
 
-  return autop(s).trim();
+  // Tighten spacing: collapse stray <br> runs and drop <br> around blocks.
+  let out = autop(s);
+  out = out
+    .replace(/(<br\s*\/?>\s*){2,}/gi, "<br />")
+    .replace(/<br\s*\/?>\s*(<(?:h[1-6]|ul|ol|figure|hr|div)\b)/gi, "$1")
+    .replace(/(<\/(?:h[1-6]|ul|ol|li|figure|div|p)>)\s*<br\s*\/?>/gi, "$1");
+  return out.trim();
 }
 
 // Minimal wpautop: wrap loose text blocks in <p>, leave block-level HTML alone.
@@ -309,6 +315,9 @@ const ROGUE_IMAGES = {
 // Service sub-pages get CTAs from the template, so strip redundant inline ones.
 function tidyService(html) {
   return html
+    // Strip inline images; the template leads with the designed card image.
+    .replace(/<figure[^>]*>[\s\S]*?<\/figure>/gi, "")
+    .replace(/<img[^>]*>/gi, "")
     .replace(/<a class="btn"[^>]*href="\/contact\/"[^>]*>[\s\S]*?<\/a>/gi, "")
     // headings/paragraphs that are just a redundant CTA label
     .replace(/<(p|h[1-6])[^>]*>([\s\S]*?)<\/\1>/gi, (m, tag, inner) => {
@@ -362,10 +371,22 @@ const podcast = all
       title: decodeEntities(p.title.replace(/^EP?\s*0*\d+:\s*/i, "").trim()),
       fullTitle: decodeEntities(p.title.trim()),
       // Drop the inline Captivate player div — the episode template renders its own.
-      html: cleanContent(p.content).replace(
-        /<div[^>]*>\s*<iframe[^>]*player\.captivate\.fm[^>]*>\s*<\/iframe>\s*<\/div>/gi,
-        ""
-      ),
+      // Also strip the boilerplate "subscribe" graphic and the legacy mini-series
+      // promo: the episode template now ends with a Front&Centre rebrand row, and
+      // the "available on" banner lives on the podcast index instead.
+      html: cleanContent(p.content)
+        .replace(
+          /<div[^>]*>\s*<iframe[^>]*player\.captivate\.fm[^>]*>\s*<\/iframe>\s*<\/div>/gi,
+          ""
+        )
+        .replace(
+          /<figure[^>]*>\s*<a[^>]*>\s*<img[^>]*Subscribe-graphic-shownotes[^>]*>\s*<\/a>\s*<\/figure>/gi,
+          ""
+        )
+        .replace(
+          /<h3[^>]*>\s*Minimise Your Competitor Vulnerability\s*<\/h3>[\s\S]*?GET ACCESS NOW<\/a>(?:\s*<\/p>)*/gi,
+          ""
+        ),
       image: featuredImg(p) || (p.content.match(/image="(\d+)"/) ? mediaSrc(p.content.match(/image="(\d+)"/)[1]) : ""),
       captivate: (p.content.match(/player\.captivate\.fm\/episode\/[\w-]+/) || [])[0] || "",
     };

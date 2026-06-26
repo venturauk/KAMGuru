@@ -82,7 +82,7 @@ body {
   color: var(--ink);
   line-height: 1.2;
   font-weight: 700;
-  margin: 1.8rem 0 0.8rem;
+  margin: 1.3rem 0 0.6rem;
   scroll-margin-top: 6rem;
 }
 .prose h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); }
@@ -101,9 +101,9 @@ body {
 .prose ol { list-style: decimal; }
 .prose li { margin: 0.35rem 0; }
 .prose img { max-width: 100%; height: auto; border-radius: 8px; }
-.prose figure { margin: 1.5rem 0; }
-/* Keep portraits/banners from going full-bleed; large enough for infographics. */
-.prose figure img { display: block; margin-inline: auto; max-width: min(90%, 480px); }
+.prose figure { margin: 1.1rem auto; }
+/* Keep portraits/banners compact (and small enough to feel tidy). */
+.prose figure img { display: block; margin-inline: auto; max-width: min(80%, 360px); }
 
 /* Bullet lists: the source wraps each item in an <h4> with stray <br>s. */
 .prose li br,

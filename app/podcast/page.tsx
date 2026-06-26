@@ -30,6 +30,22 @@ export default function PodcastIndex() {
         </div>
       </section>
 
+      <section className="container-x pt-12">
+        <a
+          href="https://kamcast.captivate.fm/listen"
+          target="_blank"
+          rel="noopener"
+          className="card-lift block overflow-hidden rounded-2xl border border-line"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={mediaUrl("/wp-content/uploads/Subscribe-graphic-shownotes.jpg")}
+            alt="KAMCast is available on Apple Podcasts, Google Podcasts, Spotify, Stitcher and more"
+            className="w-full"
+          />
+        </a>
+      </section>
+
       <section className="container-x py-12">
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {episodes.map((e) => (

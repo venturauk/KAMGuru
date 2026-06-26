@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPage, pageRoutes } from "@/lib/content";
+import { mediaUrl } from "@/lib/media";
 import Html from "@/components/Html";
 import PageHero from "@/components/PageHero";
 
@@ -28,6 +29,14 @@ const SERVICES = [
   { title: "Speaking", href: "/services/speaking/" },
 ];
 
+// Designed card image (with label) per service sub-page.
+const SERVICE_CARD: Record<string, string> = {
+  "services/consultancy": "/wp-content/uploads/Consultancy.jpg",
+  "services/coaching": "/wp-content/uploads/Coaching.jpg",
+  "services/training": "/wp-content/uploads/Training.jpg",
+  "services/speaking": "/wp-content/uploads/Speaking-003.jpg",
+};
+
 export default async function CatchAllPage({
   params,
 }: {
@@ -50,6 +59,14 @@ export default async function CatchAllPage({
         />
         <section className="container-x grid gap-12 py-14 lg:grid-cols-[1fr_300px]">
           <article className="prose min-w-0">
+            {SERVICE_CARD[route] && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={mediaUrl(SERVICE_CARD[route])}
+                alt={page.title}
+                className="mb-8 w-full rounded-2xl shadow-sm"
+              />
+            )}
             <Html html={page.html} className="" />
           </article>
 

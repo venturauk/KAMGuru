@@ -47,23 +47,6 @@ export default async function EpisodePage({
   const prev = episodes[idx - 1];
   const next = episodes[idx + 1];
 
-  const shareUrl = `https://www.kamguru.com/podcast/${ep.slug}/`;
-  const shareText = `KAMCast Ep ${ep.number}: ${ep.title}`;
-  const shares = [
-    {
-      label: "LinkedIn",
-      href: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`,
-    },
-    {
-      label: "X",
-      href: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`,
-    },
-    {
-      label: "Email",
-      href: `mailto:?subject=${encodeURIComponent(shareText)}&body=${encodeURIComponent(shareUrl)}`,
-    },
-  ];
-
   return (
     <>
       <section className="border-b border-line bg-[var(--bg-soft)]">
@@ -96,21 +79,37 @@ export default async function EpisodePage({
         )}
         <Html html={ep.html} />
 
-        {/* share */}
-        <div className="mt-10 flex flex-wrap items-center gap-3 border-t border-line pt-6">
-          <span className="text-sm font-semibold text-ink">Share this episode:</span>
-          {shares.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noopener"
-              className="rounded-full border border-line px-4 py-1.5 text-sm font-medium text-ink-soft transition hover:border-brand hover:text-brand"
-            >
-              {s.label}
-            </a>
-          ))}
-        </div>
+        {/* Front&Centre rebrand invitation */}
+        <a
+          href="https://frontandcentre.com/the-learning-centre"
+          target="_blank"
+          rel="noopener"
+          className="card-lift mt-10 grid items-center gap-6 overflow-hidden rounded-2xl border border-line bg-[var(--bg-soft)] p-6 sm:grid-cols-[200px_1fr]"
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={mediaUrl("/wp-content/uploads/Rebrand.jpg")}
+            alt="KAMguru is now Front&Centre"
+            loading="lazy"
+            className="w-full rounded-xl"
+          />
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-widest text-brand">
+              We&apos;ve rebranded
+            </div>
+            <h2 className="mt-2 text-xl font-bold text-ink">
+              KAMguru is now Front&amp;Centre&reg;
+            </h2>
+            <p className="mt-2 text-sm text-ink-soft">
+              Enjoyed the episode? All of our latest KAM thinking, tools and
+              training now live in the all-new Front&amp;Centre&reg; Learning
+              Centre. Come and explore what&apos;s next.
+            </p>
+            <span className="mt-3 inline-block text-sm font-semibold text-brand-dark">
+              Visit the Learning Centre &rarr;
+            </span>
+          </div>
+        </a>
       </article>
 
       {/* prev / next */}
