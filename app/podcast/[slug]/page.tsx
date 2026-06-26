@@ -67,6 +67,14 @@ export default async function EpisodePage({
       </section>
 
       <article className="container-x py-12">
+        {ep.banner && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={mediaUrl(ep.banner)}
+            alt={ep.fullTitle}
+            className="mb-8 w-full rounded-2xl"
+          />
+        )}
         {ep.captivate && (
           <div className="mb-8 overflow-hidden rounded-xl border border-line">
             <iframe

@@ -50,6 +50,7 @@ export type Episode = {
   number: number;
   title: string;
   fullTitle: string;
+  banner: string;
   html: string;
   image: string;
   captivate: string;

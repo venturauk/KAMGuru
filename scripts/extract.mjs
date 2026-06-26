@@ -364,29 +364,44 @@ const podcast = all
   .filter((p) => p.type === "podcast" && p.status === "publish")
   .map((p) => {
     const epNum = parseInt((p.title.match(/Ep\s*0*(\d+)/i) || [])[1] || "0", 10);
+    // Drop the inline Captivate player div — the episode template renders its own.
+    // Also strip the boilerplate "subscribe" graphic and the legacy mini-series
+    // promo: the episode template now ends with a Front&Centre rebrand row, and
+    // the "available on" banner lives on the podcast index instead.
+    let html = cleanContent(p.content)
+      .replace(
+        /<div[^>]*>\s*<iframe[^>]*player\.captivate\.fm[^>]*>\s*<\/iframe>\s*<\/div>/gi,
+        ""
+      )
+      .replace(
+        /<figure[^>]*>\s*<a[^>]*>\s*<img[^>]*Subscribe-graphic-shownotes[^>]*>\s*<\/a>\s*<\/figure>/gi,
+        ""
+      )
+      .replace(
+        /<h3[^>]*>\s*Minimise Your Competitor Vulnerability\s*<\/h3>[\s\S]*?GET ACCESS NOW<\/a>(?:\s*<\/p>)*/gi,
+        ""
+      );
+
+    // Pull the leading shownotes header figure out of the body so the template
+    // can render it full-width (the prose figure rule caps images at 360px).
+    let banner = "";
+    const lead = html.match(
+      /^\s*<figure[^>]*>\s*(?:<a[^>]*>\s*)?<img[^>]*src="([^"]+)"[^>]*>\s*(?:<\/a>\s*)?<\/figure>/i
+    );
+    if (lead) {
+      banner = lead[1];
+      // Remove the figure and any immediately-following horizontal rules.
+      html = html.slice(lead[0].length).replace(/^(?:\s*<hr\s*\/?>)+/i, "").trim();
+    }
+
     return {
       id: p.id,
       slug: p.slug,
       number: epNum,
       title: decodeEntities(p.title.replace(/^EP?\s*0*\d+:\s*/i, "").trim()),
       fullTitle: decodeEntities(p.title.trim()),
-      // Drop the inline Captivate player div — the episode template renders its own.
-      // Also strip the boilerplate "subscribe" graphic and the legacy mini-series
-      // promo: the episode template now ends with a Front&Centre rebrand row, and
-      // the "available on" banner lives on the podcast index instead.
-      html: cleanContent(p.content)
-        .replace(
-          /<div[^>]*>\s*<iframe[^>]*player\.captivate\.fm[^>]*>\s*<\/iframe>\s*<\/div>/gi,
-          ""
-        )
-        .replace(
-          /<figure[^>]*>\s*<a[^>]*>\s*<img[^>]*Subscribe-graphic-shownotes[^>]*>\s*<\/a>\s*<\/figure>/gi,
-          ""
-        )
-        .replace(
-          /<h3[^>]*>\s*Minimise Your Competitor Vulnerability\s*<\/h3>[\s\S]*?GET ACCESS NOW<\/a>(?:\s*<\/p>)*/gi,
-          ""
-        ),
+      banner,
+      html,
       image: featuredImg(p) || (p.content.match(/image="(\d+)"/) ? mediaSrc(p.content.match(/image="(\d+)"/)[1]) : ""),
       captivate: (p.content.match(/player\.captivate\.fm\/episode\/[\w-]+/) || [])[0] || "",
     };
